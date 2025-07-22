@@ -19,6 +19,7 @@ from utterance_segmenter import AsyncUtteranceSegmenter
 from sentiment_analyzer import SentimentAnalyzer, SentimentCache
 from event_emitter import event_emitter, EventFormatter
 from config import config
+from performance_profiler import PerformanceProfiler, ComponentProfiler
 
 # Configure logging
 logging.basicConfig(
@@ -36,6 +37,7 @@ class SpeechAnalysisOrchestrator:
     
     def __init__(self):
         self.audio_capture = AsyncAudioCapture()
+        self.performance_profiler = PerformanceProfiler()
         
         # Load Hugging Face token from environment
         huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
@@ -127,22 +129,23 @@ class SpeechAnalysisOrchestrator:
                     
                     # Process when we have enough audio
                     if len(audio_buffer) >= target_buffer_size:
-                        # Process transcription and diarization
-                        if hasattr(self.transcription_engine, 'process_audio_chunk_async'):
-                            segments = await self.transcription_engine.process_audio_chunk_async(bytes(audio_buffer))
-                        else:
-                            segments = await self.transcription_engine.transcribe_audio(bytes(audio_buffer))
-                        
-                        if segments:
-                            # Segment into utterances
-                            utterances = await self.utterance_segmenter.process_segments_async(segments)
+                        with ComponentProfiler("pipeline", "_processing_loop", {"buffer_size": len(audio_buffer)}):
+                            # Process transcription and diarization
+                            if hasattr(self.transcription_engine, 'process_audio_chunk_async'):
+                                segments = await self.transcription_engine.process_audio_chunk_async(bytes(audio_buffer))
+                            else:
+                                segments = await self.transcription_engine.transcribe_audio(bytes(audio_buffer))
                             
-                            # Analyze sentiment for each utterance
-                            for utterance in utterances:
-                                await self._process_utterance(utterance)
-                        
-                        # Clear buffer after processing
-                        audio_buffer.clear()
+                            if segments:
+                                # Segment into utterances
+                                utterances = await self.utterance_segmenter.process_segments_async(segments)
+                                
+                                # Analyze sentiment for each utterance
+                                for utterance in utterances:
+                                    await self._process_utterance(utterance)
+                            
+                            # Clear buffer after processing
+                            audio_buffer.clear()
                 
         except Exception as e:
             logger.error(f"Error in processing loop: {e}", exc_info=True)
@@ -158,17 +161,21 @@ class SpeechAnalysisOrchestrator:
                 logger.debug("Using cached sentiment scores")
             else:
                 # Analyze sentiment
-                sentiment_scores = await self.sentiment_analyzer.analyze_utterance(
-                    utterance.text, 
-                    utterance.speaker
-                )
+                with ComponentProfiler("sentiment", "analyze_sentiment", {"text_length": len(utterance.text)}):
+                    sentiment_scores = await self.sentiment_analyzer.analyze_utterance(
+                        utterance.text,
+                        utterance.speaker
+                    )
                 
                 # Cache the result
                 self.sentiment_cache.set(utterance.text, utterance.speaker, sentiment_scores)
             
+            # Get performance metrics
+            performance_metrics = PerformanceProfiler.get_instance().get_metrics()
+            
             # Create and emit event
             from event_emitter import AnalysisEvent
-            event = AnalysisEvent.from_utterance(utterance, sentiment_scores)
+            event = AnalysisEvent.from_utterance(utterance, sentiment_scores, performance_metrics)
             await event_emitter.emit_event(event)
             
         except Exception as e:
@@ -207,6 +214,8 @@ async def main():
     parser.add_argument("--device", type=int, help="Audio device index")
     parser.add_argument("--list-devices", action="store_true", help="List audio devices")
     parser.add_argument("--config", help="Configuration file path")
+    parser.add_argument("--dashboard", action="store_true", help="Start performance dashboard")
+    parser.add_argument("--dashboard-port", type=int, default=8080, help="Dashboard port")
     
     args = parser.parse_args()
     
@@ -230,10 +239,20 @@ async def main():
     
     orchestrator = SpeechAnalysisOrchestrator()
     
+    # Start performance dashboard if requested
+    dashboard_task = None
+    if args.dashboard:
+        from performance_dashboard import PerformanceDashboard
+        dashboard = PerformanceDashboard(port=args.dashboard_port)
+        dashboard_task = asyncio.create_task(dashboard.start())
+        logger.info(f"Performance dashboard started on http://localhost:{args.dashboard_port}")
+    
     # Handle graceful shutdown
     def signal_handler(signum, frame):
         logger.info("Received shutdown signal")
         asyncio.create_task(orchestrator.stop())
+        if dashboard_task:
+            dashboard_task.cancel()
     
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
@@ -256,6 +275,11 @@ async def main():
         logger.error(f"Unexpected error: {e}", exc_info=True)
     finally:
         await orchestrator.stop()
+        if dashboard_task:
+            try:
+                await dashboard.stop()
+            except Exception as e:
+                logger.error(f"Error stopping dashboard: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())

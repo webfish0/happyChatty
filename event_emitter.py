@@ -10,6 +10,7 @@ from pathlib import Path
 
 from utterance_segmenter import Utterance
 from sentiment_analyzer import SentimentScores
+from performance_profiler import ComponentProfiler
 
 logger = logging.getLogger(__name__)
 
@@ -22,13 +23,14 @@ class AnalysisEvent:
     scores: Dict[str, float]
     duration: float
     confidence: float
+    performance_metrics: Dict[str, Any] = None
     
     def to_json(self) -> str:
         """Convert to JSON string."""
         return json.dumps(asdict(self), ensure_ascii=False, indent=2)
     
     @classmethod
-    def from_utterance(cls, utterance: Utterance, sentiment_scores: SentimentScores) -> 'AnalysisEvent':
+    def from_utterance(cls, utterance: Utterance, sentiment_scores: SentimentScores, performance_metrics: Dict[str, Any] = None) -> 'AnalysisEvent':
         """Create event from utterance and sentiment scores."""
         return cls(
             timestamp=utterance.start_time.isoformat() + 'Z',
@@ -36,7 +38,8 @@ class AnalysisEvent:
             text=utterance.text,
             scores=sentiment_scores.to_dict(),
             duration=utterance.duration,
-            confidence=utterance.confidence
+            confidence=utterance.confidence,
+            performance_metrics=performance_metrics
         )
 
 class EventEmitter:
@@ -90,21 +93,22 @@ class EventEmitter:
     
     async def emit_event(self, event: AnalysisEvent):
         """Emit a single analysis event to all destinations."""
-        # Add to history
-        self.event_history.append(event)
-        if len(self.event_history) > self.max_history:
-            self.event_history.pop(0)
-        
-        # Send to WebSocket clients
-        await self._broadcast_to_websockets(event)
-        
-        # Write to file
-        await self._write_to_file(event)
-        
-        # Call registered callbacks
-        await self._call_callbacks(event)
-        
-        logger.info(f"Emitted event: {event.speaker} - {event.text[:50]}...")
+        with ComponentProfiler("events", "emit_event", {"speaker": event.speaker, "text_length": len(event.text)}):
+            # Add to history
+            self.event_history.append(event)
+            if len(self.event_history) > self.max_history:
+                self.event_history.pop(0)
+            
+            # Send to WebSocket clients
+            await self._broadcast_to_websockets(event)
+            
+            # Write to file
+            await self._write_to_file(event)
+            
+            # Call registered callbacks
+            await self._call_callbacks(event)
+            
+            logger.info(f"Emitted event: {event.speaker} - {event.text[:50]}...")
     
     async def _broadcast_to_websockets(self, event: AnalysisEvent):
         """Broadcast event to all connected WebSocket clients."""

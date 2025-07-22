@@ -5,6 +5,7 @@ import sounddevice as sd
 from typing import Optional, Callable, AsyncGenerator
 import threading
 import queue
+from performance_profiler import profile_audio_capture, ComponentProfiler
 
 logger = logging.getLogger(__name__)
 

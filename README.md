@@ -242,6 +242,75 @@ python test_pipeline.py
 - **Latency**: Decrease chunk duration
 - **Accuracy**: Use larger Whisper model
 
+### Performance Monitoring
+
+The system includes comprehensive performance profiling capabilities:
+
+- **Real-time Metrics**: Track processing times for each component
+- **Component Profiling**: Monitor audio capture, transcription, sentiment analysis, and event emission
+- **Performance Dashboard**: Web-based dashboard at `http://localhost:8080`
+- **JSON Metrics**: Performance data included in output events
+
+#### Performance Dashboard
+
+Start the performance dashboard:
+```bash
+python main.py --dashboard
+```
+
+Access at `http://localhost:8080` to view:
+- Real-time processing times
+- Component performance breakdowns
+- Memory usage tracking
+- Event throughput metrics
+
+#### Performance Metrics in Events
+
+Each event now includes detailed performance metrics:
+
+```json
+{
+  "timestamp": "2024-01-15T10:30:00.123Z",
+  "speaker": "Speaker_1",
+  "text": "Hello, how are you today?",
+  "scores": {...},
+  "duration": 2.5,
+  "confidence": 0.85,
+  "performance_metrics": {
+    "audio_capture": {
+      "avg_time": 0.012,
+      "total_calls": 45,
+      "last_duration": 0.008
+    },
+    "transcription": {
+      "avg_time": 0.234,
+      "total_calls": 15,
+      "last_duration": 0.189
+    },
+    "sentiment": {
+      "avg_time": 0.456,
+      "total_calls": 15,
+      "last_duration": 0.423
+    },
+    "event_emission": {
+      "avg_time": 0.003,
+      "total_calls": 15,
+      "last_duration": 0.002
+    }
+  }
+}
+```
+
+#### Performance CLI Options
+
+```bash
+# Start with performance dashboard
+python main.py --dashboard --dashboard-port 8080
+
+# Monitor performance via logs
+python main.py --output events.json --log-level DEBUG
+```
+
 ## Development
 
 ### Project Structure
@@ -255,6 +324,8 @@ speech-sentiment-analysis/
 ├── event_emitter.py          # JSON event emission
 ├── main.py                   # Main orchestrator
 ├── config.py                 # Configuration management
+├── performance_profiler.py   # Performance monitoring and profiling
+├── performance_dashboard.py  # Web-based performance dashboard
 ├── test_pipeline.py          # Test suite
 ├── requirements.txt          # Dependencies
 └── README.md                 # This file

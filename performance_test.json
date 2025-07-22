@@ -1,0 +1,938 @@
+[
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.3702850341796875,
+    "timestamp": 1753181715.4358342,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 114.14599418640137,
+    "timestamp": 1753181715.549999,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 16.89600944519043,
+    "timestamp": 1753181715.5669131,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 5.959033966064453,
+    "timestamp": 1753181715.572892,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 1.6260147094726562,
+    "timestamp": 1753181716.57583,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 180.7570457458496,
+    "timestamp": 1753181716.756607,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 36.978960037231445,
+    "timestamp": 1753181716.793611,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 6.947040557861328,
+    "timestamp": 1753181716.800597,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 4.5719146728515625,
+    "timestamp": 1753181717.806709,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 107.48529434204102,
+    "timestamp": 1753181717.9142442,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 49.45087432861328,
+    "timestamp": 1753181717.96382,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 3.5409927368164062,
+    "timestamp": 1753181717.9674041,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.2491683959960938,
+    "timestamp": 1753181718.971534,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 81.24804496765137,
+    "timestamp": 1753181719.052813,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 14.544010162353516,
+    "timestamp": 1753181719.0674,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 10.510921478271484,
+    "timestamp": 1753181719.077945,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.268075942993164,
+    "timestamp": 1753181720.081943,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 168.8230037689209,
+    "timestamp": 1753181720.250796,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 23.842811584472656,
+    "timestamp": 1753181720.274716,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 3.6683082580566406,
+    "timestamp": 1753181720.2784262,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.865957260131836,
+    "timestamp": 1753181721.283838,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 67.81005859375,
+    "timestamp": 1753181721.3517,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 34.555912017822266,
+    "timestamp": 1753181721.386322,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 9.299993515014648,
+    "timestamp": 1753181721.395669,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 1.9326210021972656,
+    "timestamp": 1753181722.3991628,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 145.097017288208,
+    "timestamp": 1753181722.544297,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 47.15991020202637,
+    "timestamp": 1753181722.591533,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 9.418964385986328,
+    "timestamp": 1753181722.6010082,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.0508041381835938,
+    "timestamp": 1753181723.6052039,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 175.22501945495605,
+    "timestamp": 1753181723.780471,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 21.1031436920166,
+    "timestamp": 1753181723.801583,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 7.819890975952148,
+    "timestamp": 1753181723.809414,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 4.921197891235352,
+    "timestamp": 1753181724.8155122,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 75.30498504638672,
+    "timestamp": 1753181724.890861,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 42.33121871948242,
+    "timestamp": 1753181724.9332411,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 5.361795425415039,
+    "timestamp": 1753181724.9386618,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.313852310180664,
+    "timestamp": 1753181725.942098,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 119.58503723144531,
+    "timestamp": 1753181726.061724,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 46.24366760253906,
+    "timestamp": 1753181726.1080189,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 1.7170906066894531,
+    "timestamp": 1753181726.109781,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 5.192756652832031,
+    "timestamp": 1753181727.116653,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 178.68614196777344,
+    "timestamp": 1753181727.2953842,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 35.395145416259766,
+    "timestamp": 1753181727.33082,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 10.347843170166016,
+    "timestamp": 1753181727.3412108,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.357959747314453,
+    "timestamp": 1753181728.345522,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 162.7209186553955,
+    "timestamp": 1753181728.508277,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 35.25209426879883,
+    "timestamp": 1753181728.543602,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 4.488945007324219,
+    "timestamp": 1753181728.5481348,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 5.098104476928711,
+    "timestamp": 1753181729.554822,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 145.6601619720459,
+    "timestamp": 1753181729.7005372,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 30.164003372192383,
+    "timestamp": 1753181729.730805,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 8.814096450805664,
+    "timestamp": 1753181729.7397141,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.7217864990234375,
+    "timestamp": 1753181730.744252,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 138.1702423095703,
+    "timestamp": 1753181730.882466,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 48.764944076538086,
+    "timestamp": 1753181730.931317,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 9.268999099731445,
+    "timestamp": 1753181730.940614,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.613067626953125,
+    "timestamp": 1753181731.944575,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 148.00286293029785,
+    "timestamp": 1753181732.0926049,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 30.585050582885742,
+    "timestamp": 1753181732.123204,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 4.459857940673828,
+    "timestamp": 1753181732.1276789,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.505229949951172,
+    "timestamp": 1753181733.132538,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 72.20101356506348,
+    "timestamp": 1753181733.204753,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 21.700143814086914,
+    "timestamp": 1753181733.226475,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 10.191202163696289,
+    "timestamp": 1753181733.2366872,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 4.896640777587891,
+    "timestamp": 1753181734.2428858,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 142.1198844909668,
+    "timestamp": 1753181734.385021,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 18.37015151977539,
+    "timestamp": 1753181734.403455,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 9.197711944580078,
+    "timestamp": 1753181734.4126909,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 5.064964294433594,
+    "timestamp": 1753181735.418646,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 147.8438377380371,
+    "timestamp": 1753181735.5665228,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 50.03476142883301,
+    "timestamp": 1753181735.616587,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 1.542806625366211,
+    "timestamp": 1753181735.618152,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 5.479335784912109,
+    "timestamp": 1753181736.6250272,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 100.12388229370117,
+    "timestamp": 1753181736.725206,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 48.78997802734375,
+    "timestamp": 1753181736.774056,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 6.2389373779296875,
+    "timestamp": 1753181736.7805529,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.407001495361328,
+    "timestamp": 1753181737.784377,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 70.02496719360352,
+    "timestamp": 1753181737.854421,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 50.02284049987793,
+    "timestamp": 1753181737.904487,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 10.44607162475586,
+    "timestamp": 1753181737.915158,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 4.456758499145508,
+    "timestamp": 1753181738.9209259,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 177.55413055419922,
+    "timestamp": 1753181739.098489,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 38.95926475524902,
+    "timestamp": 1753181739.1374762,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 1.9037723541259766,
+    "timestamp": 1753181739.139432,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.549886703491211,
+    "timestamp": 1753181740.1434329,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 100.4798412322998,
+    "timestamp": 1753181740.243952,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 14.049053192138672,
+    "timestamp": 1753181740.258042,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 6.3419342041015625,
+    "timestamp": 1753181740.264405,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 5.151987075805664,
+    "timestamp": 1753181741.271272,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 200.6242275238037,
+    "timestamp": 1753181741.4719071,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 21.628141403198242,
+    "timestamp": 1753181741.493572,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 8.385896682739258,
+    "timestamp": 1753181741.502002,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.185272216796875,
+    "timestamp": 1753181742.506776,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 75.03795623779297,
+    "timestamp": 1753181742.581852,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 49.96204376220703,
+    "timestamp": 1753181742.631882,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 7.803678512573242,
+    "timestamp": 1753181742.6397219,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 2.012014389038086,
+    "timestamp": 1753181743.643378,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 137.01605796813965,
+    "timestamp": 1753181743.780409,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 17.32802391052246,
+    "timestamp": 1753181743.79775,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 6.715059280395508,
+    "timestamp": 1753181743.804476,
+    "metadata": {
+      "event_count": 1
+    }
+  },
+  {
+    "component_name": "audio_capture",
+    "operation_name": "capture_chunk",
+    "duration_ms": 3.5429000854492188,
+    "timestamp": 1753181744.808547,
+    "metadata": {
+      "chunk_size": 1024
+    }
+  },
+  {
+    "component_name": "transcription",
+    "operation_name": "transcribe_audio",
+    "duration_ms": 148.17094802856445,
+    "timestamp": 1753181744.956744,
+    "metadata": {
+      "audio_length": 1000
+    }
+  },
+  {
+    "component_name": "sentiment",
+    "operation_name": "analyze_utterance",
+    "duration_ms": 32.16195106506348,
+    "timestamp": 1753181744.988941,
+    "metadata": {
+      "text_length": 100
+    }
+  },
+  {
+    "component_name": "events",
+    "operation_name": "emit_event",
+    "duration_ms": 10.334968566894531,
+    "timestamp": 1753181744.999299,
+    "metadata": {
+      "event_count": 1
+    }
+  }
+]

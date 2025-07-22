@@ -6,6 +6,7 @@ from datetime import datetime
 import aiohttp
 from dataclasses import dataclass, asdict
 from config import config
+from performance_profiler import profile_sentiment_analysis, ComponentProfiler
 
 logger = logging.getLogger(__name__)
 
@@ -71,96 +72,98 @@ class SentimentAnalyzer:
     
     async def analyze_utterance(self, text: str, speaker: str = "unknown") -> SentimentScores:
         """Analyze sentiment of a single utterance."""
-        if not text.strip():
-            return SentimentScores()
-        
-        if not self.api_key:
-            logger.debug("Using mock sentiment analysis")
-            return self._mock_analysis(text)
-        
-        try:
-            return await self._call_openrouter_api(text, speaker)
-        except Exception as e:
-            logger.error(f"Error calling OpenRouter API: {e}")
-            return self._mock_analysis(text)
+        with ComponentProfiler("sentiment", "analyze_utterance", {"text_length": len(text), "speaker": speaker}):
+            if not text.strip():
+                return SentimentScores()
+            
+            if not self.api_key:
+                logger.debug("Using mock sentiment analysis")
+                return self._mock_analysis(text)
+            
+            try:
+                return await self._call_openrouter_api(text, speaker)
+            except Exception as e:
+                logger.error(f"Error calling OpenRouter API: {e}")
+                return self._mock_analysis(text)
     
     async def _call_openrouter_api(self, text: str, speaker: str) -> SentimentScores:
         """Call OpenRouter API for sentiment analysis."""
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://localhost:8000",
-            "X-Title": "Real-time Speech Analysis"
-        }
-        
-        # Create prompt for multi-label classification
-        labels = list(config.sentiment_labels.keys())
-        labels_description = "\n".join([f"{k}: {v}" for k, v in config.sentiment_labels.items()])
-        
-        prompt = f"""You are a sentiment analysis assistant. Analyze the emotional tone of this text and provide numerical scores for each emotion.
+        with ComponentProfiler("sentiment", "_call_openrouter_api", {"text_length": len(text), "speaker": speaker}):
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://localhost:8000",
+                "X-Title": "Real-time Speech Analysis"
+            }
+            
+            # Create prompt for multi-label classification
+            labels = list(config.sentiment_labels.keys())
+            labels_description = "\n".join([f"{k}: {v}" for k, v in config.sentiment_labels.items()])
+            
+            prompt = f"""You are a sentiment analysis assistant. Analyze the emotional tone of this text and provide numerical scores for each emotion.
 
-Text: "{text}"
+    Text: "{text}"
 
-For each emotion below, provide a score from 0.0 (not present) to 1.0 (strongly present):
+    For each emotion below, provide a score from 0.0 (not present) to 1.0 (strongly present):
 
-{labels_description}
+    {labels_description}
 
-Return a JSON object with exact emotion names as keys and float values between 0.0 and 1.0. No explanations, just the JSON.
+    Return a JSON object with exact emotion names as keys and float values between 0.0 and 1.0. No explanations, just the JSON.
 
-Example format:
-{{"Happy": 0.2, "Sad": 0.8, "Angry": 0.1, "Content": 0.3, "Curious": 0.0}}
+    Example format:
+    {{"Happy": 0.2, "Sad": 0.8, "Angry": 0.1, "Content": 0.3, "Curious": 0.0}}
 
-JSON response:"""
+    JSON response:"""
 
-        payload = {
-            "model": self.model,
-            "messages": [
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            "max_tokens": self.config.max_tokens,
-            "temperature": self.config.temperature
-        }
-        
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{self.base_url}/chat/completions",
-                headers=headers,
-                json=payload
-            ) as response:
-                if response.status != 200:
-                    raise Exception(f"API error: {response.status}")
-                
-                data = await response.json()
-                content = data['choices'][0]['message']['content']
-                
-                # Parse JSON response
-                try:
-                    # Handle markdown code blocks
-                    content = content.strip()
-                    if content.startswith('```json'):
-                        content = content[7:]  # Remove ```json
-                    if content.endswith('```'):
-                        content = content[:-3]  # Remove ```
-                    content = content.strip()
+            payload = {
+                "model": self.model,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                "max_tokens": self.config.max_tokens,
+                "temperature": self.config.temperature
+            }
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    f"{self.base_url}/chat/completions",
+                    headers=headers,
+                    json=payload
+                ) as response:
+                    if response.status != 200:
+                        raise Exception(f"API error: {response.status}")
                     
-                    # Try to extract JSON from text
-                    import re
-                    json_match = re.search(r'\{.*\}', content, re.DOTALL)
-                    if json_match:
-                        json_str = json_match.group(0)
-                        scores_dict = json.loads(json_str)
-                        return self._parse_scores(scores_dict)
-                    else:
-                        scores_dict = json.loads(content)
-                        return self._parse_scores(scores_dict)
+                    data = await response.json()
+                    content = data['choices'][0]['message']['content']
+                    
+                    # Parse JSON response
+                    try:
+                        # Handle markdown code blocks
+                        content = content.strip()
+                        if content.startswith('```json'):
+                            content = content[7:]  # Remove ```json
+                        if content.endswith('```'):
+                            content = content[:-3]  # Remove ```
+                        content = content.strip()
                         
-                except json.JSONDecodeError as e:
-                    logger.warning(f"Failed to parse API response, using mock analysis")
-                    logger.debug(f"API response: {content}")
-                    return self._mock_analysis(text)
+                        # Try to extract JSON from text
+                        import re
+                        json_match = re.search(r'\{.*\}', content, re.DOTALL)
+                        if json_match:
+                            json_str = json_match.group(0)
+                            scores_dict = json.loads(json_str)
+                            return self._parse_scores(scores_dict)
+                        else:
+                            scores_dict = json.loads(content)
+                            return self._parse_scores(scores_dict)
+                            
+                    except json.JSONDecodeError as e:
+                        logger.warning(f"Failed to parse API response, using mock analysis")
+                        logger.debug(f"API response: {content}")
+                        return self._mock_analysis(text)
     
     def _parse_scores(self, scores_dict: Dict[str, float]) -> SentimentScores:
         """Parse API response into SentimentScores object."""

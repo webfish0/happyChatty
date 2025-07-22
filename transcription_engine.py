@@ -9,6 +9,7 @@ from pyannote.audio import Pipeline
 import torch
 import numpy as np
 from dataclasses import dataclass
+from performance_profiler import profile_transcription, ComponentProfiler
 
 logger = logging.getLogger(__name__)
 
@@ -48,86 +49,88 @@ class AsyncTranscriptionEngine:
             
     async def transcribe_audio(self, audio_data: bytes) -> List[TranscriptionSegment]:
         """Transcribe audio with speaker diarization."""
-        try:
-            # Save audio data to temporary file
-            with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as temp_file:
-                temp_filename = temp_file.name
+        with ComponentProfiler("transcription", "transcribe_audio", {"audio_size": len(audio_data)}):
+            try:
+                # Save audio data to temporary file
+                with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as temp_file:
+                    temp_filename = temp_file.name
+                    
+                # Write audio data to WAV file
+                with wave.open(temp_filename, 'wb') as wav_file:
+                    wav_file.setnchannels(1)  # Mono
+                    wav_file.setsampwidth(2)  # 16-bit
+                    wav_file.setframerate(16000)
+                    wav_file.writeframes(audio_data)
                 
-            # Write audio data to WAV file
-            with wave.open(temp_filename, 'wb') as wav_file:
-                wav_file.setnchannels(1)  # Mono
-                wav_file.setsampwidth(2)  # 16-bit
-                wav_file.setframerate(16000)
-                wav_file.writeframes(audio_data)
-            
-            # Perform transcription
-            segments = await self._transcribe_file(temp_filename)
-            
-            # Clean up
-            os.unlink(temp_filename)
-            
-            return segments
-            
-        except Exception as e:
-            logger.error(f"Error transcribing audio: {e}")
-            return []
+                # Perform transcription
+                segments = await self._transcribe_file(temp_filename)
+                
+                # Clean up
+                os.unlink(temp_filename)
+                
+                return segments
+                
+            except Exception as e:
+                logger.error(f"Error transcribing audio: {e}")
+                return []
             
     async def _transcribe_file(self, audio_file: str) -> List[TranscriptionSegment]:
         """Transcribe audio file with speaker diarization."""
-        segments = []
-        
-        try:
-            # Load audio for speech recognition
-            with sr.AudioFile(audio_file) as source:
-                audio = self.recognizer.record(source)
-                
-            # Basic transcription (fallback if diarization fails)
-            try:
-                text = self.recognizer.recognize_google(audio)
-                if text:
-                    segments.append(TranscriptionSegment(
-                        text=text,
-                        speaker="SPEAKER_00",
-                        start_time=0.0,
-                        end_time=len(audio.frame_data) / (audio.sample_rate * audio.sample_width),
-                        confidence=0.8
-                    ))
-            except sr.UnknownValueError:
-                logger.warning("Speech recognition could not understand audio")
-            except sr.RequestError as e:
-                logger.error(f"Speech recognition error: {e}")
-                
-            # Speaker diarization if pipeline is available
-            if self.diarization_pipeline:
-                try:
-                    # Run diarization
-                    diarization = await asyncio.get_event_loop().run_in_executor(
-                        None, 
-                        lambda: self.diarization_pipeline(audio_file)
-                    )
-                    
-                    # Map diarization results to segments
-                    speaker_segments = []
-                    for turn, _, speaker in diarization.itertracks(yield_label=True):
-                        speaker_segments.append({
-                            'start': turn.start,
-                            'end': turn.end,
-                            'speaker': speaker
-                        })
-                    
-                    # Update segments with speaker information
-                    if speaker_segments and segments:
-                        # For now, assign the first speaker to the transcribed text
-                        # In a more sophisticated implementation, we'd segment the audio
-                        segments[0].speaker = speaker_segments[0]['speaker']
-                        
-                except Exception as e:
-                    logger.warning(f"Speaker diarization failed: {e}")
-                    
-        except Exception as e:
-            logger.error(f"Error in file transcription: {e}")
+        with ComponentProfiler("transcription", "_transcribe_file", {"file_size": os.path.getsize(audio_file)}):
+            segments = []
             
-        return segments
+            try:
+                # Load audio for speech recognition
+                with sr.AudioFile(audio_file) as source:
+                    audio = self.recognizer.record(source)
+                    
+                # Basic transcription (fallback if diarization fails)
+                try:
+                    text = self.recognizer.recognize_google(audio)
+                    if text:
+                        segments.append(TranscriptionSegment(
+                            text=text,
+                            speaker="SPEAKER_00",
+                            start_time=0.0,
+                            end_time=len(audio.frame_data) / (audio.sample_rate * audio.sample_width),
+                            confidence=0.8
+                        ))
+                except sr.UnknownValueError:
+                    logger.warning("Speech recognition could not understand audio")
+                except sr.RequestError as e:
+                    logger.error(f"Speech recognition error: {e}")
+                    
+                # Speaker diarization if pipeline is available
+                if self.diarization_pipeline:
+                    try:
+                        # Run diarization
+                        diarization = await asyncio.get_event_loop().run_in_executor(
+                            None,
+                            lambda: self.diarization_pipeline(audio_file)
+                        )
+                        
+                        # Map diarization results to segments
+                        speaker_segments = []
+                        for turn, _, speaker in diarization.itertracks(yield_label=True):
+                            speaker_segments.append({
+                                'start': turn.start,
+                                'end': turn.end,
+                                'speaker': speaker
+                            })
+                        
+                        # Update segments with speaker information
+                        if speaker_segments and segments:
+                            # For now, assign the first speaker to the transcribed text
+                            # In a more sophisticated implementation, we'd segment the audio
+                            segments[0].speaker = speaker_segments[0]['speaker']
+                            
+                    except Exception as e:
+                        logger.warning(f"Speaker diarization failed: {e}")
+                        
+            except Exception as e:
+                logger.error(f"Error in file transcription: {e}")
+                
+            return segments
         
     async def transcribe_chunk(self, audio_chunk: bytes) -> Optional[TranscriptionSegment]:
         """Transcribe a single audio chunk."""
