@@ -31,7 +31,14 @@ Successfully implemented a comprehensive real-time conversation sentiment analys
 - ✅ Maintained full functionality while eliminating compatibility issues
 - ✅ Created comprehensive testing and documentation
 
-### 5. Testing & Documentation
+### 5. Local LLM Model Support
+- ✅ **ADDED SUPPORT FOR LOCAL MISTRAL 7B MODEL**
+- ✅ Created LocalSentimentAnalyzer for LM Studio integration
+- ✅ Added command line parameters for local model usage
+- ✅ Configurable local model API endpoint
+- ✅ Seamless switching between cloud and local models
+
+### 6. Testing & Documentation
 - ✅ Created comprehensive test suites for all components
 - ✅ Documented deployment and usage procedures
 - ✅ Provided troubleshooting guides and best practices
@@ -111,8 +118,14 @@ Successfully implemented a comprehensive real-time conversation sentiment analys
 # Install dependencies
 pip install -r requirements.txt
 
-# Start the system with dashboard
+# Start the system with dashboard (cloud model)
 python main.py --dashboard
+
+# Start with local Mistral 7B model via LM Studio
+python main.py --local-model --dashboard
+
+# Start with custom local model URL
+python main.py --local-model --local-model-url http://localhost:1234/v1 --dashboard
 
 # Access dashboard at http://localhost:8080
 ```

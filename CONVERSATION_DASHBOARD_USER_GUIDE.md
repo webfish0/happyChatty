@@ -134,6 +134,30 @@ Audio Input → Transcription Engine → Utterance Segmentation
 }
 ```
 
+## Using Local LLM Models
+
+The system supports using local LLM models via LM Studio for sentiment analysis. This is particularly useful when you want to run the system without internet connectivity or prefer to use your own hardware.
+
+### Prerequisites
+1. Install LM Studio from https://lmstudio.ai/
+2. Download the Mistral 7B Instruct model (mistralai/Mistral-7B-Instruct-v0.3)
+3. Start the LM Studio server on port 1234
+
+### Usage
+```bash
+# Start with local model
+python main.py --local-model --dashboard
+
+# Specify custom local model URL
+python main.py --local-model --local-model-url http://localhost:1234/v1 --dashboard
+```
+
+### Benefits
+- No internet required for sentiment analysis
+- Full control over model and data privacy
+- Reduced latency for local processing
+- No API costs
+
 ## Troubleshooting
 
 ### Common Issues

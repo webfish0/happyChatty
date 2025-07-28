@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 class SpeechAnalysisOrchestrator:
     """Main orchestrator for real-time speech sentiment analysis."""
     
-    def __init__(self):
+    def __init__(self, use_local_model: bool = False, local_model_url: str = "http://127.0.0.1:1234/v1"):
         self.audio_capture = AsyncAudioCapture()
         self.performance_profiler = PerformanceProfiler()
         
@@ -49,7 +49,15 @@ class SpeechAnalysisOrchestrator:
             self.transcription_engine = BasicTranscriptionEngine()
             
         self.utterance_segmenter = AsyncUtteranceSegmenter()
-        self.sentiment_analyzer = SentimentAnalyzer()
+        
+        # Initialize sentiment analyzer based on configuration
+        if use_local_model:
+            from local_sentiment_analyzer import LocalSentimentAnalyzer
+            self.sentiment_analyzer = LocalSentimentAnalyzer(api_url=local_model_url)
+            print(f"✅ Using local Mistral 7B model via LM Studio")
+        else:
+            self.sentiment_analyzer = SentimentAnalyzer()
+            
         self.sentiment_cache = SentimentCache()
         
         self.is_running = False
@@ -217,6 +225,8 @@ async def main():
     parser.add_argument("--dashboard", action="store_true", help="Start conversation dashboard")
     parser.add_argument("--dashboard-port", type=int, default=8080, help="Dashboard port")
     parser.add_argument("--performance-dashboard", action="store_true", help="Start performance monitoring dashboard")
+    parser.add_argument("--local-model", action="store_true", help="Use local Mistral 7B model via LM Studio")
+    parser.add_argument("--local-model-url", default="http://127.0.0.1:1234/v1", help="Local model API URL")
     
     args = parser.parse_args()
     
@@ -238,7 +248,10 @@ async def main():
     if not os.getenv("HUGGINGFACE_TOKEN"):
         logger.warning("HUGGINGFACE_TOKEN not set - diarization may not work")
     
-    orchestrator = SpeechAnalysisOrchestrator()
+    orchestrator = SpeechAnalysisOrchestrator(
+        use_local_model=args.local_model,
+        local_model_url=args.local_model_url
+    )
     
     # Start performance dashboard if requested
     dashboard_task = None
