@@ -16,6 +16,7 @@ from aiohttp import web
 import threading
 import webbrowser
 from pathlib import Path
+import aiofiles
 
 from performance_profiler import PerformanceProfiler
 
@@ -32,7 +33,8 @@ class PerformanceDashboard:
         self.is_running = False
         
         # Setup routes
-        self.app.router.add_get('/', self._handle_index)
+        self.app.router.add_get('/', self._handle_conversation_dashboard)
+        self.app.router.add_get('/performance', self._handle_index)
         self.app.router.add_get('/ws', self._handle_websocket)
         self.app.router.add_static('/static', Path(__file__).parent / 'static')
         
@@ -75,6 +77,18 @@ class PerformanceDashboard:
         """Serve the main dashboard HTML."""
         html_content = self._get_dashboard_html()
         return web.Response(text=html_content, content_type='text/html')
+    
+    async def _handle_conversation_dashboard(self, request):
+        """Serve the conversation sentiment dashboard."""
+        # Serve the index.html file from static directory
+        static_path = Path(__file__).parent / 'static' / 'index.html'
+        if static_path.exists():
+            async with aiofiles.open(static_path, 'r') as f:
+                content = await f.read()
+            return web.Response(text=content, content_type='text/html')
+        else:
+            # Fallback to simple redirect
+            raise web.HTTPFound('/static/index.html')
     
     async def _handle_websocket(self, request):
         """Handle websocket connections for real-time updates."""

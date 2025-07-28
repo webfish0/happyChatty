@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Conversation Sentiment Dashboard</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Real-time Conversation Sentiment Dashboard</h1>
+            <div class="status-indicators">
+                <span id="connection-status" class="status disconnected">🔴 Disconnected</span>
+                <span id="system-status" class="status">📊 System: --ms latency</span>
+                <div class="dashboard-controls">
+                    <button id="clear-history">Clear History</button>
+                    <button id="export-data">Export Data</button>
+                </div>
+            </div>
+        </header>
+        
+        <main class="dashboard-main">
+            <div id="speakers-container" class="speakers-grid">
+                <!-- Speaker avatars will be dynamically inserted here -->
+                <div class="speaker-placeholder">
+                    <p>Waiting for conversation data...</p>
+                    <p>Start the speech analysis system to begin monitoring.</p>
+                </div>
+            </div>
+            
+            <div id="timeline-container" class="conversation-timeline">
+                <h2>Conversation Timeline</h2>
+                <div id="timeline-content">
+                    <div class="timeline-placeholder">
+                        <p>No conversation data yet. Speak into the microphone to begin analysis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="analytics-container" class="realtime-analytics">
+                <h2>Real-time Analytics</h2>
+                <div class="analytics-content">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <div class="analytics-value" id="total-events">0</div>
+                            <div class="analytics-label">Total Events</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-value" id="active-speakers">0</div>
+                            <div class="analytics-label">Active Speakers</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-value" id="avg-sentiment">0%</div>
+                            <div class="analytics-label">Average Positivity</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="analytics-value" id="processing-latency">--ms</div>
+                            <div class="analytics-label">Processing Latency</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="dashboard-footer">
+            <div id="performance-metrics">
+                <span>📈 Performance: <span id="fps-counter">--</span> FPS</span>
+                <span>💾 Memory: <span id="memory-usage">--</span> MB</span>
+            </div>
+            <div id="event-statistics">
+                <span>👥 Speakers: <span id="speaker-count">0</span></span>
+                <span>🕒 Uptime: <span id="uptime-counter">00:00:00</span></span>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

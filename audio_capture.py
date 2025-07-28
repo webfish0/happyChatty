@@ -2,7 +2,7 @@ import asyncio
 import logging
 import numpy as np
 import sounddevice as sd
-from typing import Optional, Callable, AsyncGenerator
+from typing import Optional, AsyncGenerator
 import threading
 import queue
 from performance_profiler import profile_audio_capture, ComponentProfiler
@@ -10,7 +10,7 @@ from performance_profiler import profile_audio_capture, ComponentProfiler
 logger = logging.getLogger(__name__)
 
 class AsyncAudioCapture:
-    """Async audio capture using sounddevice for cross-platform compatibility."""
+    """Async audio capture using sounddevice with polling approach to avoid FFI callback issues on macOS."""
     
     def __init__(self, 
                  sample_rate: int = 16000,
@@ -22,10 +22,10 @@ class AsyncAudioCapture:
         self.chunk_size = chunk_size
         self.device = device
         
-        self._stream = None
         self._audio_queue = queue.Queue()
         self._is_recording = False
         self._recording_thread = None
+        self._stream = None
         
     async def start_recording(self) -> None:
         """Start async audio recording."""
@@ -46,7 +46,7 @@ class AsyncAudioCapture:
                     raise RuntimeError("No input devices found")
             
             self._is_recording = True
-            self._recording_thread = threading.Thread(target=self._record_audio)
+            self._recording_thread = threading.Thread(target=self._record_audio, daemon=True)
             self._recording_thread.start()
             logger.info("Audio recording started")
             
@@ -55,30 +55,46 @@ class AsyncAudioCapture:
             raise
             
     def _record_audio(self) -> None:
-        """Internal method to record audio in a separate thread."""
+        """Internal method to record audio in a separate thread using polling approach."""
         try:
-            def audio_callback(indata, frames, time, status):
-                if status:
-                    logger.warning(f"Audio callback status: {status}")
-                if self._is_recording:
-                    # Convert to bytes and add to queue
-                    audio_bytes = (indata * 32767).astype(np.int16).tobytes()
-                    self._audio_queue.put(audio_bytes)
-            
-            with sd.InputStream(
+            # Open stream without callback - this avoids FFI callback issues
+            self._stream = sd.InputStream(
                 samplerate=self.sample_rate,
                 channels=self.channels,
                 device=self.device,
                 dtype=np.float32,
-                blocksize=self.chunk_size,
-                callback=audio_callback
-            ):
-                while self._is_recording:
-                    sd.sleep(100)
+                blocksize=self.chunk_size
+            )
+            self._stream.start()
+            
+            logger.info("Audio stream started successfully")
+            
+            while self._is_recording:
+                # Read audio data in chunks - this is the polling approach
+                audio_data, overflowed = self._stream.read(self.chunk_size)
+                
+                if overflowed:
+                    logger.warning("Audio buffer overflow detected")
+                
+                if audio_data is not None and len(audio_data) > 0:
+                    # Convert to bytes and add to queue
+                    audio_bytes = (audio_data * 32767).astype(np.int16).tobytes()
+                    self._audio_queue.put(audio_bytes)
+                
+                # Small sleep to prevent busy waiting
+                sd.sleep(10)
                     
         except Exception as e:
             logger.error(f"Error in audio recording: {e}")
             self._is_recording = False
+        finally:
+            if self._stream:
+                try:
+                    self._stream.stop()
+                    self._stream.close()
+                except Exception as e:
+                    logger.error(f"Error closing stream: {e}")
+                self._stream = None
             
     async def stop_recording(self) -> None:
         """Stop audio recording."""

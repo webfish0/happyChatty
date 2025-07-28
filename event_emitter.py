@@ -60,7 +60,7 @@ class EventEmitter:
         """Start WebSocket server for real-time event streaming."""
         logger.info(f"Starting WebSocket server on {host}:{port}")
         
-        async def handle_client(websocket, path):
+        async def handle_client(websocket):
             self.websocket_clients.add(websocket)
             try:
                 # Send recent history to new client

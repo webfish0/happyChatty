@@ -1,0 +1,442 @@
+/* Conversation Dashboard Styles */
+
+:root {
+    --positive-color: #4caf50;
+    --negative-color: #f44336;
+    --complex-color: #ff9800;
+    --neutral-color: #9e9e9e;
+    --primary-color: #2196f3;
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.dashboard-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.dashboard-header {
+    background: linear-gradient(135deg, #1a237e, #283593);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.dashboard-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.status-indicators {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status.connected {
+    background-color: #4caf50;
+    color: white;
+}
+
+.status.disconnected {
+    background-color: #f44336;
+    color: white;
+}
+
+.status.warning {
+    background-color: #ff9800;
+    color: white;
+}
+
+.dashboard-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dashboard-controls button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.dashboard-controls button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Main Content Styles */
+.dashboard-main {
+    flex: 1;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+/* Speakers Grid */
+.speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.speaker-avatar {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.speaker-avatar:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.avatar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.speaker-id {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.speaker-name {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Avatar Face Styles */
+.avatar-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.avatar-face.emotion-positive {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    border-radius: 50%;
+    padding: 2rem;
+}
+
+.avatar-face.emotion-negative {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    border-radius: 50%;
+    padding: 2rem;
+}
+
+.avatar-face.emotion-complex {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border-radius: 50%;
+    padding: 2rem;
+}
+
+.avatar-face.emotion-neutral {
+    background: linear-gradient(135deg, #fafafa, #eeeeee);
+    border-radius: 50%;
+    padding: 2rem;
+}
+
+.avatar-eyes {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.eye {
+    width: 12px;
+    height: 8px;
+    background: #333;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.avatar-mouth {
+    width: 30px;
+    height: 15px;
+    border: 2px solid #333;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.avatar-eyebrows {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+
+.eyebrow {
+    width: 20px;
+    height: 3px;
+    background: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Sentiment Info */
+.avatar-sentiment-info {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.emotion-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+}
+
+.emotion-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Conversation Timeline */
+.conversation-timeline {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.conversation-timeline h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.timeline-item {
+    padding: 1rem;
+    border-left: 3px solid var(--border-color);
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.timeline-item:hover {
+    background: rgba(33, 150, 243, 0.05);
+    border-left-color: var(--primary-color);
+}
+
+.timeline-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-timestamp {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.timeline-speaker {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.timeline-text {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.timeline-emotion {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.timeline-emotion.positive {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--positive-color);
+}
+
+.timeline-emotion.negative {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--negative-color);
+}
+
+.timeline-emotion.complex {
+    background: rgba(255, 152, 0, 0.1);
+    color: var(--complex-color);
+}
+
+/* Real-time Analytics */
+.realtime-analytics {
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.realtime-analytics h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.analytics-card {
+    background: rgba(33, 150, 243, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.analytics-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.analytics-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Footer Styles */
+.dashboard-footer {
+    background: var(--card-background);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 1rem;
+    }
+    
+    .status-indicators {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .dashboard-main {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .speakers-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .speaker-avatar {
+        padding: 1rem;
+    }
+    
+    .avatar-eyes {
+        gap: 1.5rem;
+    }
+    
+    .avatar-mouth {
+        width: 25px;
+        height: 12px;
+    }
+    
+    .dashboard-footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-controls {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .dashboard-controls button {
+        width: 100%;
+    }
+    
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation Classes */
+@keyframes blink {
+    0%, 100% { height: 8px; }
+    50% { height: 2px; }
+}
+
+.blinking {
+    animation: blink 0.2s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.pulsing {
+    animation: pulse 2s ease-in-out infinite;
+}

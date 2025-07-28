@@ -75,7 +75,7 @@ class SpeechAnalysisOrchestrator:
         event_emitter.add_callback(self._console_callback)
         
         # Start audio capture
-        await self.audio_capture.start_recording()
+        await self.audio_capture.start_recording())
         
         # Start processing loop
         self.is_running = True
@@ -214,8 +214,9 @@ async def main():
     parser.add_argument("--device", type=int, help="Audio device index")
     parser.add_argument("--list-devices", action="store_true", help="List audio devices")
     parser.add_argument("--config", help="Configuration file path")
-    parser.add_argument("--dashboard", action="store_true", help="Start performance dashboard")
+    parser.add_argument("--dashboard", action="store_true", help="Start conversation dashboard")
     parser.add_argument("--dashboard-port", type=int, default=8080, help="Dashboard port")
+    parser.add_argument("--performance-dashboard", action="store_true", help="Start performance monitoring dashboard")
     
     args = parser.parse_args()
     
@@ -241,11 +242,13 @@ async def main():
     
     # Start performance dashboard if requested
     dashboard_task = None
-    if args.dashboard:
+    performance_dashboard_task = None
+    if args.dashboard or args.performance_dashboard:
         from performance_dashboard import PerformanceDashboard
         dashboard = PerformanceDashboard(port=args.dashboard_port)
         dashboard_task = asyncio.create_task(dashboard.start())
-        logger.info(f"Performance dashboard started on http://localhost:{args.dashboard_port}")
+        logger.info(f"Conversation dashboard started on http://localhost:{args.dashboard_port}")
+        logger.info(f"Performance dashboard available at http://localhost:{args.dashboard_port}/performance")
     
     # Handle graceful shutdown
     def signal_handler(signum, frame):
