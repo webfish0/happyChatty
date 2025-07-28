@@ -75,7 +75,7 @@ class SpeechAnalysisOrchestrator:
         event_emitter.add_callback(self._console_callback)
         
         # Start audio capture
-        await self.audio_capture.start_recording())
+        await self.audio_capture.start_recording()
         
         # Start processing loop
         self.is_running = True
